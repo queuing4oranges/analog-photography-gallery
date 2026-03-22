@@ -1,7 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 const API_BASE_URL = process.env.API_BASE_URL;
+
+export const dynamicParams = true; // util if route for a specific img is not created yet
+
+export async function generateStateParams() { // will pre-render the images to improve performance
+    const res = await fetch(`${API_BASE_URL}/images/read.php`);
+    const imgs = await res.json();
+    
+    return imgs.map((img) => ({
+        id: img.id
+    }))
+}
 
 async function getPhotos() {
     const res = await fetch(`${API_BASE_URL}/images/read.php`, {
@@ -26,12 +38,7 @@ export default async function PhotoDetail({ params }) {
     const img = imgs.find((i) => String(i.id) === String(id));
 
     if (!img) {
-        return (
-            <main style={{ padding: '2rem' }}>
-                <p>Bild nicht gefunden</p>
-                <Link href="/photos">Zurück zur Galerie</Link>
-            </main>
-        );
+        notFound(); // out of the box fct that serves the 404 page
     }
 
     return (
@@ -45,7 +52,7 @@ export default async function PhotoDetail({ params }) {
                 quality={70}
             />
             <div style={{ marginTop: '1rem' }}>
-                <Link href="/photos">Zurück zur Galerie</Link>
+                <Link href="/photos">Back to gallery</Link>
             </div>
         </main>
     );
