@@ -2,6 +2,8 @@ import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./components/Navbar";
 
+export const dynamic = 'force-dynamic' // needs to build dynamic since there are dynamic functions etc.
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,7 +26,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        <Navbar /> {/* TODO: make nested layouts here - v.14*/}
         {children}
       </body>
     </html>

@@ -3,7 +3,7 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['api2.queuing4oranges.com'],
+    domains: ['api2.queuing4oranges.com', 'jpjxxivnalbhhpnuplkf.supabase.co'],
   },
 };
 
