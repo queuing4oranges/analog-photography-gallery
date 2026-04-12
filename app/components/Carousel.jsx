@@ -6,7 +6,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Carousel({ imgs }) {
+export default function Carousel({ album }) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
     const bucketName = 'analog-images';
 
@@ -25,10 +25,9 @@ export default function Carousel({ imgs }) {
 
     return (
         <div className="relative w-full max-w-3xl mx-auto">
-            {/* Viewport */}
             <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
                 <div className="flex">
-                    {imgs && imgs.map((img, idx) => {
+                    {album && album.map((img, idx) => {
                         const { data } = supabase.storage.from(bucketName).getPublicUrl(img.image_path)
 
                         return (
@@ -36,8 +35,8 @@ export default function Carousel({ imgs }) {
                                 <Image
                                     src={data.publicUrl}
                                     alt={img.place}
-                                    width={400}
-                                    height={600}
+                                    width={600}
+                                    height={400}
                                     quality={75}
                                     unoptimized
                                 />
@@ -47,7 +46,6 @@ export default function Carousel({ imgs }) {
                 </div>
             </div>
 
-            {/* Buttons */}
             <button
                 onClick={scrollPrev}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow"
