@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from './logo.webp';
 import { usePathname } from 'next/navigation';
 import './Navbar.scss';
 
@@ -14,11 +13,11 @@ export default function Navbar() {
         <nav className = "navbar-container container-analog flex items-between justify-between py-4">
             <div className="flex items-center gap-4">
                 <Image
-                    src={Logo}
+                    src="/images/logo.webp"
                     alt='Picture gallery logo'
                     width={70}
+                    height={70}
                     quality={[100, 75]}
-                    placeholder='blur' //creates blur effect while img loads
                     className="rounded-lg"
                 />
                 <h1 className="heading-lg">

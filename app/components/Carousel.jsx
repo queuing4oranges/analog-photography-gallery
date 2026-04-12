@@ -1,10 +1,19 @@
 'use client';
 
+import { createBrowserClient } from '@supabase/ssr';
 import { useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export default function Carousel() {
+export default function Carousel({ imgs }) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+    const bucketName = 'analog-images';
+
+    const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
 
     const scrollPrev = useCallback(() => {
         if (emblaApi) emblaApi.scrollPrev();
@@ -19,22 +28,22 @@ export default function Carousel() {
             {/* Viewport */}
             <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
                 <div className="flex">
-                    {[
-                        '/images/img1.jpg',
-                        '/images/img2.jpg',
-                        '/images/img3.jpg',
-                    ].map((src, index) => (
-                        <div
-                            className="flex-[0_0_100%] min-w-0"
-                            key={index}
-                        >
-                            <img
-                                src={src}
-                                alt={`Slide ${index}`}
-                                className="w-full h-[400px] object-cover"
-                            />
-                        </div>
-                    ))}
+                    {imgs && imgs.map((img, idx) => {
+                        const { data } = supabase.storage.from(bucketName).getPublicUrl(img.image_path)
+
+                        return (
+                            <Link href={`/photos/${img.id}`} key={idx}>
+                                <Image
+                                    src={data.publicUrl}
+                                    alt={img.place}
+                                    width={400}
+                                    height={600}
+                                    quality={75}
+                                    unoptimized
+                                />
+                            </Link>
+                        )
+                    })}
                 </div>
             </div>
 
