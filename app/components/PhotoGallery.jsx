@@ -1,9 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { createServerSupabaseClient } from '../utils/supabase/server';
-
-const SUPABASE_BASE_URL = process.env.SUPABASE_BASE_URL;
+import { createServerSupabaseClient } from '../lib/server';
 
 async function getPhotos() {
     const supabase = await createServerSupabaseClient();
@@ -27,7 +25,7 @@ export default async function PhotoGallery() {
             {imgs && imgs.map((img, idx) =>{
                 const bucketName = 'analog-images'
                 const { data } = supabase.storage.from(bucketName).getPublicUrl(img.image_path)
-                console.log(data.publicUrl, 'public url')
+
                 return (
                     <Link href={`/photos/${img.id}`} key={idx}>
                         <Image

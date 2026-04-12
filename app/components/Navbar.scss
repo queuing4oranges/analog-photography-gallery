@@ -1,0 +1,7 @@
+.navbar-container a {
+    border-bottom: transparent solid 3px;
+    
+    &.active {
+        border-bottom: var(--color-accent-warm) solid 3px !important;
+    }
+}

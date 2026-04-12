@@ -3,7 +3,16 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['api2.queuing4oranges.com', 'jpjxxivnalbhhpnuplkf.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api2.queuing4oranges.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'jpjxxivnalbhhpnuplkf.supabase.co',
+      },
+    ],
   },
 };
 
