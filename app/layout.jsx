@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <Navbar /> {/* TODO: make nested layouts here - v.14*/}
-        <hr className="divider" />
+        <div className="divider" />
         {children}
       </body>
     </html>
