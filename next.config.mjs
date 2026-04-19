@@ -5,12 +5,12 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'api2.queuing4oranges.com',
+        protocol: "https",
+        hostname: "api2.queuing4oranges.com",
       },
       {
-        protocol: 'https',
-        hostname: 'jpjxxivnalbhhpnuplkf.supabase.co',
+        protocol: "https",
+        hostname: "jpjxxivnalbhhpnuplkf.supabase.co",
       },
     ],
   },

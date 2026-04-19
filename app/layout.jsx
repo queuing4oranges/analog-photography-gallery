@@ -1,16 +1,22 @@
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Orbitron, JetBrains_Mono, DM_Sans } from "next/font/google";
 import Navbar from "./components/Navbar";
 
-export const dynamic = 'force-dynamic' // needs to build dynamic since there are dynamic functions etc.
+export const dynamic = "force-dynamic"; // needs to build dynamic since there are dynamic functions etc.
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dmsans-mono",
   subsets: ["latin"],
 });
 
@@ -23,10 +29,11 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${orbitron.variable} ${jetbrains.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Navbar /> {/* TODO: make nested layouts here - v.14*/}
+        <hr className="divider" />
         {children}
       </body>
     </html>

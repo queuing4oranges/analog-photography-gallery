@@ -1,0 +1,15 @@
+.swiper-horizontal {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #ffab61;
+  }
+}
+
+h2,
+h3 {
+  text-shadow:
+    0 0 5px rgba(255, 171, 97, 0.6),
+    0 0 10px rgba(255, 171, 97, 0.4),
+    0 0 20px rgba(255, 171, 97, 0.2);
+  letter-spacing: 0.08em;
+}

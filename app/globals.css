@@ -2,45 +2,70 @@
 
 @theme {
   /* Fonts */
-  --font-heading: "Manrope", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-heading: "Orbitron", sans-serif;
+  --font-body: "JetBrains Mono", monospace;
   --font-accent: "DM Sans", sans-serif;
 
   /* Colors */
-  --color-bg: #060C15;
+  --color-bg: #060c15;
 
-  --color-text: #E6EAF0;
-  --color-text-muted: #9CA3AF;
+  --color-text: #e6eaf0;
+  --color-text-muted: #9ca3af;
 
-  --color-accent-warm: #D6A85F;
-  --color-accent-cool: #5C7FA3;
+  --color-accent-warm: #ffab61;
+  --color-accent-cool: #b1c2d3;
 
-  --color-card: #0B111C;
-  --color-card-border: #1A2233;
+  --color-card: #0b111c;
+  --color-card-border: #1a2233;
+  --swiper-navigation-color: #ffab61;
 
   /* Effects */
-  --shadow-soft: 0 10px 30px rgba(0,0,0,0.4);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-@layer components {
-  .container-analog {
-    @apply max-w-6xl mx-auto px-6 md:px-10;
-  }
+body {
+  background-color: #0b111c;
+  color: white;
+  font-family: var(--font-body) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading) !important;
+  color: var(--color-accent-warm);
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 1.75rem;
+}
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+h3 {
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 @layer components {
   .photo-card {
     background: var(--color-card);
     border: 1px solid var(--color-card-border);
-    border-radius: 1rem;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
-    transition: transform 0.4s var(--ease-snappy), box-shadow 0.4s var(--ease-snappy);
+    transition:
+      transform 0.4s var(--ease-snappy),
+      box-shadow 0.4s var(--ease-snappy);
   }
 
   .photo-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   }
 
   .photo-image {
@@ -94,15 +119,5 @@
 
   .link-accent:hover {
     opacity: 0.7;
-  }
-
-  .divider {
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--color-card-border),
-      transparent
-    );
   }
 }

@@ -1,7 +1,27 @@
-.navbar-container a {
+.navbar-container {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  a {
     border-bottom: transparent solid 3px;
-    
+
     &.active {
-        border-bottom: var(--color-accent-warm) solid 3px !important;
+      border-bottom: var(--color-accent-warm) solid 3px !important;
     }
+  }
+
+  .divider {
+    border: none;
+    height: 2px;
+    margin-bottom: 2rem;
+
+    background: linear-gradient(
+      90deg,
+      #ffab61 0%,
+      rgba(255, 171, 97, 0.6) 40%,
+      rgba(255, 171, 97, 0.2) 70%,
+      transparent 100%
+    );
+
+    box-shadow: 0 0 10px rgba(255, 171, 97, 0.7);
+  }
 }

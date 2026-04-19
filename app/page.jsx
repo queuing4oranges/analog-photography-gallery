@@ -3,11 +3,10 @@ import PhotoGallery from "./components/PhotoGallery";
 
 export default function Home() {
   return (
-    <main>
-      <h2>Analogue Photography</h2>
+    <main className="px-5">
+      {/* <h2>Analogue Photography</h2> */}
       <PhotoGallery />
       {/* TODO SEARCH? <input type="text" /> */}
-      {/* TODO different folders as structure */}
     </main>
   );
 }
