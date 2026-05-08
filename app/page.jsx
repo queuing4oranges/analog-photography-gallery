@@ -3,6 +3,7 @@ import PhotoGallery from "./components/PhotoGallery";
 import hero from "./components/hero.png"
 
 export default function Home() {
+  //TODO show a random image as cover
   return (
     <main className="w-full">
       <section className="relative h-screen w-full mb-5">
@@ -16,7 +17,7 @@ export default function Home() {
         <div className="absolute inset-0 z-10 flex flex-col justify-between py-16 px-6 sm:px-10 md:px-16 lg:px-[7rem] overflow-hidden">
 
           <span className="mt-3 font-accent text-[10px] sm:text-[11px] uppercase tracking-tight sm:tracking-wide md:tracking-wider">
-            Volume One · 2024—2026
+            Volume One · 2022—2026
           </span>
 
           <h1 className="
