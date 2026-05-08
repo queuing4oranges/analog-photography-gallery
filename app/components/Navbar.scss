@@ -1,11 +1,14 @@
-.navbar-container {
-  padding-bottom: 2rem;
-  padding-top: 2rem;
-  a {
-    border-bottom: transparent solid 3px;
+header {
+  .navbar-container {
+    background-color: transparent;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    a {
+      border-bottom: transparent solid 3px;
 
-    &.active {
-      border-bottom: var(--color-accent-warm) solid 3px !important;
+      &.active {
+        border-bottom: var(--color-accent-warm) solid 3px !important;
+      }
     }
   }
 }
