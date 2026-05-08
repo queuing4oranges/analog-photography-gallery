@@ -1,7 +1,4 @@
 header {
-  height: 5rem;
-  padding-right: 7rem;
-  padding-left: 7rem;
   .navbar-container {
     background-color: transparent;
     padding-bottom: 2rem;
@@ -12,12 +9,6 @@ header {
       &.active {
         border-bottom: var(--color-accent-warm) solid 3px !important;
       }
-    }
-
-    span {
-      font-size: 24px;
-      font-weight: 400;
-      letter-spacing: 0.25em;
     }
   }
 }
