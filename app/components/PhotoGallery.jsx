@@ -1,8 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { createServerSupabaseClient } from "../lib/server";
-// import Swiper from "./Swiper";
-// import "./Swiper.scss";
 
 async function getPhotos() {
     const supabase = await createServerSupabaseClient();
@@ -40,8 +38,6 @@ export default async function PhotoGallery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {albums &&
                 albums.map((album, i) => {
-                    const widths = ["w-[60%]", "w-[40%]", "w-[75%]", "w-[50%]"];
-                    const widthClass = widths[i % widths.length];
                     return (
                         <React.Fragment key={i}>
                             <div key={album.id} className="relative h-[300px] sm:h-[400px] md:h-[500px]">
@@ -57,11 +53,11 @@ export default async function PhotoGallery() {
                                         />
                                     </div>
                                 )}
-                                <div className="absolute bottom-0 flex flex-col m-3 sm:m-4 md:m-5 max-w-[90%]">
-                                    <h2 className="font-serif text-xl sm:text-2xl md:text-5xl font-light mb-2 leading-tight">{album.place}</h2>
-                                    <div className="flex flex-wrap italic items-center bg-black/30 text-white px-2 py-1 sm:px-3 sm:py-1">
-                                        <span className="text-lg sm:text-xl md:text-2xl">{album.camera}</span>
-                                        <span className="text-lg sm:text-xl md:text-2xl">&nbsp;/&nbsp;</span>
+                                <div className="absolute bottom-0 left-0 right-0 w-full flex flex-col bg-black/70 p-3 sm:p-4 md:p-5">
+                                    <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-light leading-tight">{album.place}</h2>
+                                    <div className="flex flex-wrap items-center text-white">
+                                        <span>{album.camera}</span>
+                                        <span>&nbsp;/&nbsp;</span>
                                         <span>{album.film_type}</span>
                                     </div>
                                 </div>
@@ -70,18 +66,6 @@ export default async function PhotoGallery() {
                     )
                 })
             }
-            {/* {albums &&
-                albums.map((album) => (
-                    <div key={album.id} className="mb-10">
-                        <div className="flex items-baseline gap-2 m-5 ms-0">
-                            <h2>{album.camera}</h2>
-                            <span className="text-accent-warm opacity-60">/</span>
-                            <h3>{album.film_type}</h3>
-                        </div>
-                        <Swiper album={album.photos} />
-                    </div>
-                ))
-            } */}
         </div>
     );
 }
