@@ -1,11 +1,23 @@
-.navbar-container {
-  padding-bottom: 2rem;
-  padding-top: 2rem;
-  a {
-    border-bottom: transparent solid 3px;
+header {
+  height: 5rem;
+  padding-right: 7rem;
+  padding-left: 7rem;
+  .navbar-container {
+    background-color: transparent;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    a {
+      border-bottom: transparent solid 3px;
 
-    &.active {
-      border-bottom: var(--color-accent-warm) solid 3px !important;
+      &.active {
+        border-bottom: var(--color-accent-warm) solid 3px !important;
+      }
+    }
+
+    span {
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
     }
   }
 }

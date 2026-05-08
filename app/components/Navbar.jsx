@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import "./Navbar.scss";
 
@@ -10,17 +9,12 @@ export default function Navbar() {
     const pathname = usePathname();
 
     return (
-        <>
-            <nav className="navbar-container flex items-between justify-end py-4 px-5">
+        <header className="fixed top-0 left-0 w-full z-20 bg-transparent">
+            <nav className="font-heading navbar-container flex items-between justify-between py-4">
                 <div className="flex items-center gap-4">
-                    <h1>Analog Photo Gallery</h1>
-                    <Image
-                        src="/images/logo.webp"
-                        alt="Picture gallery logo"
-                        width={70}
-                        height={70}
-                        quality={[100, 75]}
-                    />
+                    <span>Analog Archives</span>
+                </div>
+                <div className="bg-gradient-to-b from-black/30 via-transparent to-black/40">
                     <div className="flex items-center gap-8">
                         <Link
                             href="/"
@@ -37,6 +31,6 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
-        </>
+        </header>
     );
 }
