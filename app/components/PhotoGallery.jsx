@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from 'next/link'
 import { createServerSupabaseClient } from "../lib/server";
 
 async function getPhotos() {
@@ -39,7 +40,10 @@ export default async function PhotoGallery() {
             {albums &&
                 albums.map((album, i) => {
                     return (
-                        <React.Fragment key={i}>
+                        <Link
+                            key={i}
+                            href={`albums/${album.slug}`}
+                        >
                             <div key={album.id} className="relative h-[300px] sm:h-[400px] md:h-[500px]">
                                 {album.coverUrl && (
                                     <div className="absolute inset-0 w-full h-full">
@@ -62,7 +66,7 @@ export default async function PhotoGallery() {
                                     </div>
                                 </div>
                             </div>
-                        </React.Fragment>
+                        </Link>
                     )
                 })
             }
