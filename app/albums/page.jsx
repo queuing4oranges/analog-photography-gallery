@@ -5,9 +5,9 @@ import Loading from "./loading";
 export default function Photos() {
   return (
     <main>
-      <Suspense fallback={<Loading />}>
+      {/* <Suspense fallback={<Loading />}>
         <PhotoGallery />
-      </Suspense>
+      </Suspense> */}
     </main>
   );
 }
