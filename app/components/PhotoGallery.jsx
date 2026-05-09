@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from 'next/link'
+import Link from 'next/link';
 import { createServerSupabaseClient } from "../lib/server";
 
 async function getPhotos() {

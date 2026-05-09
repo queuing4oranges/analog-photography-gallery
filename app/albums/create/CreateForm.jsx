@@ -2,7 +2,11 @@
 
 import React from "react";
 
-// TODO make a form for uploading fotos
+
 export default function CreateForm() {
-  return <div>CreateForm</div>;
+  return (
+    <section className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
+      hello world
+    </section>
+  )
 }
