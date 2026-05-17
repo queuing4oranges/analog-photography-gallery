@@ -85,5 +85,3 @@ export default function AboutContent() {
     </section>
   )
 }
-
-//TODO login button for uploading images

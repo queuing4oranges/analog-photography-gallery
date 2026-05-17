@@ -1,12 +1,17 @@
 "use client";
 
-import React from "react";
-import { createAlbum } from "../../actions/albums.server";
+import React, { useState, useRef } from "react";
+import { createAlbum, uploadPhoto } from "../../actions/albums.server";
 
 
-export default function CreateForm() {
+export default function CreateForm({ albums }) {
+  const [allAlbums, setAllAlbums] = useState(albums);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [albumId, setAlbumId] = useState("");
+  const uploadRef = useRef(null);
+
   return (
-    <section className="pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
+    <section className="create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
       <div className="w-full max-w-lg space-y-12" data-testid="upload-form">
         <header className="space-y-1">
           <h1 className="text-2xl font-medium tracking-tight">Upload photos</h1>
@@ -17,6 +22,8 @@ export default function CreateForm() {
 
         {/* add album */}
         <section className="space-y-5" data-testid="album-section">
+
+          {/* on submit, send to server and run createAlbum on server */}
           <form action={createAlbum}>
 
             <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
@@ -95,81 +102,87 @@ export default function CreateForm() {
             </div>
 
             <button
-              className="w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs uppercase tracking-wider"
+              className="w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs mt-4 uppercase tracking-wider"
               data-testid="album-submit-btn"
               type="submit"
             >
-              Save album
+              Create new album (optional)
             </button>
           </form>
         </section>
 
         {/* add photos */}
-        {/* <section className="space-y-5" data-testid="photos-section">
+        <section className="space-y-5" data-testid="photos-section">
           <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
             <h2 className="text-sm uppercase tracking-wider text-white/80">
               Add photos
             </h2>
           </div>
 
-          <div className="space-y-2">
-            <label className="font-medium text-xs uppercase tracking-wider text-white/60">
-              Album
-            </label>
-            <button
-              type="button"
-              className="flex items-center justify-between w-full border border-white/20 px-3 py-2 h-10 text-sm text-white"
-            >
-              <span>Choose an album</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4 opacity-50"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-          </div>
+          <form action={uploadPhoto}>
+            <div className="space-y-2">
+              <label className="font-medium text-xs uppercase tracking-wider text-white/60">
+                Choose an album
+                <select
+                  type="button"
+                  className="flex items-center justify-between w-full capitalize border border-white/20 px-3 py-2 h-10 text-sm text-white/60"
+                  name="albumId"
+                >
+                  {allAlbums && allAlbums.map((alb, idx) => (
+                    <option
+                      className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
+                      key={idx}
+                      value={alb.id}
+                      onChange={() => setAlbumId(alb.id)}
+                    >
+                      {alb.place}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-          <div className="space-y-2">
-            <label className="font-medium text-xs uppercase tracking-wider text-white/60">
-              Photos
-            </label>
+            <div className="space-y-2 flex flex-col">
+              <label htmlFor="photo" className="font-medium text-xs uppercase tracking-wider text-white/60 mt-2">
+                Photos ( max. 100kB)
+                {/* {error &&
+                  <p className="text-red-400 text-xs">
+                    {error}
+                  </p>
+                } */}
+              </label>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => uploadRef.current?.click()}
+                  className="border border-white/20 px-4 h-10 text-sm"
+                >
+                  Choose file
+                </button>
 
-            <div
-              className="border border-dashed border-white/25 px-4 py-8 text-center cursor-pointer"
-              data-testid="dropzone"
-            >
-              <p className="text-sm text-white/80">
-                Drop photos here or{" "}
-                <span className="underline underline-offset-4">browse</span>
-              </p>
-              <p className="text-xs text-white/40 mt-1">jpg, png, webp</p>
-
+                <span className="text-sm text-white/50">
+                  {selectedFile ? selectedFile.name : "No file chosen"}
+                </span>
+              </div>
               <input
-                multiple
+                ref={uploadRef}
+                name="photo"
+                id="photo"
                 accept="image/*"
                 type="file"
                 className="hidden"
-                data-testid="photo-file-input"
+                onChange={(e) => setSelectedFile(e.target.files?.[0])}
               />
             </div>
-          </div>
 
-          <button
-            className="w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs uppercase tracking-wider flex items-center justify-center gap-2"
-            data-testid="photos-submit-btn"
-          >
-            Upload
-          </button>
-        </section> */}
+            <button
+              className="w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-4"
+              type="submit"
+            >
+              Add Image to Album
+            </button>
+          </form>
+        </section>
       </div>
     </section>
   )
