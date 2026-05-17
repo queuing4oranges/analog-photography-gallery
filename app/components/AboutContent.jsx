@@ -1,10 +1,11 @@
 import React from 'react';
 import Image from "next/image";
 import selfportrait from "./self-portrait.webp";
+import Footer from './Footer';
 
 export default function AboutContent() {
   return (
-    <section className="pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
+    <section className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
         <div className="md:col-span-5 lg:col-span-5">
           <div className="relative w-full aspect-[3/4] overflow-hidden">
@@ -80,8 +81,7 @@ export default function AboutContent() {
           </div>
         </div>
       </div>
+      <Footer />
     </section>
   )
 }
-
-//TODO login button for uploading images
