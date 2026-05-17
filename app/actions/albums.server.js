@@ -94,23 +94,4 @@ export async function uploadPhoto(formData) {
   if (dbError) {
     throw new Error(dbError.message);
   }
-  // https://jpjxxivnalbhhpnuplkf.supabase.co/storage/v1/object/public/analog-images/88d8333e-f26b-4ce4-8be7-4911cc78cf3d/escalator.jpg
-
-  // FormData {
-  //   '$ACTION_ID_407f1aa93ee430b90aa719b757b181471b133d0dbc': '',
-  //     albumId: '273a6b21-0d59-4f4f-b2cb-bffd81416470',
-  //       photo: File {
-  //     size: 43748,
-  //       type: 'image/webp',
-  //         name: 'self-portrait.webp',
-  //           lastModified: 1779038618027
-  //   }
-  // } FILE ===
-
-
-
-  // update UI
-  // revalidatePath("/albums/create");
-
-
 }
