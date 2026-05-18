@@ -81,7 +81,7 @@ export default function AboutContent() {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </section>
   )
 }

@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Playfair_Display, JetBrains_Mono, Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
+import UpButton from "./components/UpButton";
 
 export const dynamic = "force-dynamic"; // needs to build dynamic since there are dynamic functions etc.
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <div className="divider" />
         {children}
+        <UpButton />
       </body>
     </html>
   );

@@ -61,7 +61,7 @@ export default function CreateForm({ albums }) {
                   type="text"
                   id="slug"
                   name="slug"
-                  placeholder="/prague-2"
+                  placeholder="prague-2"
                   className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
                 />
               </div>
