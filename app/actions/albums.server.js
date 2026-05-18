@@ -28,7 +28,7 @@ export async function createAlbum(formData) {
   }
 
   // update UI
-  revalidatePath("/create");
+  revalidatePath("/albums/create");
 }
 
 export async function getAlbums() {
@@ -78,8 +78,9 @@ export async function uploadPhoto(formData) {
     .upload(filePath, file);
 
   if (uploadError) {
-    throw new Error(uploadError.message);
+    // throw new Error(uploadError.message);
     // setError(uploadError.message);
+    return null;
   }
 
   // insert metadata into DB
@@ -88,10 +89,14 @@ export async function uploadPhoto(formData) {
     .insert({
       album_id: albumId,
       image_path: filePath,
-      // image_url: publicUrl,
     });
 
   if (dbError) {
-    throw new Error(dbError.message);
+    // setError(dbError.message);
+    return null;
+    // throw new Error(dbError.message);
   }
+
+  // update UI
+  revalidatePath("/albums/create");
 }
