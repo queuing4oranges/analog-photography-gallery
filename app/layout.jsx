@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Playfair_Display, JetBrains_Mono, Inter } from "next/font/google";
+import AuthProvider from "./auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import UpButton from "./components/UpButton";
 
@@ -40,10 +41,12 @@ export default function RootLayout({ children }) {
       className={`${playfair.variable} ${jetbrains.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <Navbar />
-        <div className="divider" />
-        {children}
-        <UpButton />
+        <AuthProvider>
+          <Navbar />
+          <div className="divider" />
+          {children}
+          <UpButton />
+        </AuthProvider>
       </body>
     </html>
   );
