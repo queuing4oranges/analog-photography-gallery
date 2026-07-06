@@ -2,13 +2,45 @@
 
 import React, { useState, useRef } from "react";
 import { createAlbum, uploadPhoto } from "../../actions/albums.server";
-
+import { toast } from "react-toastify";
 
 export default function CreateForm({ albums }) {
   const [allAlbums, setAllAlbums] = useState(albums);
   const [selectedFile, setSelectedFile] = useState(null);
   const [albumId, setAlbumId] = useState("");
   const uploadRef = useRef(null);
+
+  const handleCreateAlbum = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const result = await createAlbum(formData);
+
+    if (!result?.success) {
+      toast(result.message, {
+        className: "p-0 w-[400px] border border-[#a93f06]",
+      });
+      return;
+    }
+
+    toast(result.message, {
+      className: "p-0 w-[400px] border border-[#3F6B2A]",
+    });
+  }
+
+  const handleUploadPhoto = async (formData) => {
+    const result = await uploadPhoto(formData);
+
+    if(!result.success) {
+      toast(result.message, {
+        className: "p-0 w-[400px] border border-[#a93f06]",
+      });
+    }
+
+    toast(result.message, {
+      className: "p-0 w-[400px] border border-[#3F6B2A]",
+    });
+  }
 
   return (
     <section className="create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
@@ -24,7 +56,7 @@ export default function CreateForm({ albums }) {
         <section className="space-y-5" data-testid="album-section">
 
           {/* on submit, send to server and run createAlbum on server */}
-          <form action={createAlbum}>
+          <form onSubmit={handleCreateAlbum}>
 
             <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
               <h2 className="text-sm uppercase tracking-wider text-white/80">
@@ -119,7 +151,7 @@ export default function CreateForm({ albums }) {
             </h2>
           </div>
 
-          <form action={uploadPhoto}>
+          <form action={handleUploadPhoto}>
             <div className="space-y-2">
               <label className="font-medium text-xs uppercase tracking-wider text-white/60">
                 Choose an album
@@ -128,6 +160,7 @@ export default function CreateForm({ albums }) {
                   className="flex items-center justify-between w-full capitalize border border-white/20 px-3 py-2 h-10 text-sm text-white/60"
                   name="albumId"
                 >
+                  {/* TODO sort album titles and make scrollbar */}
                   {allAlbums && allAlbums.map((alb, idx) => (
                     <option
                       className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
@@ -145,11 +178,6 @@ export default function CreateForm({ albums }) {
             <div className="space-y-2 flex flex-col">
               <label htmlFor="photo" className="font-medium text-xs uppercase tracking-wider text-white/60 mt-2">
                 Photos ( max. 100kB)
-                {/* {error &&
-                  <p className="text-red-400 text-xs">
-                    {error}
-                  </p>
-                } */}
               </label>
               <div className="flex items-center gap-3">
                 <button

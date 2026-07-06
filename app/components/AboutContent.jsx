@@ -1,9 +1,48 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import Image from "next/image";
 import selfportrait from "./self-portrait.webp";
-import Footer from './Footer';
+import LoginModal from './LoginModal';
+import { useRouter } from 'next/navigation';
+import { isLoggedIn, login } from '../auth/clientAuth';
+import { toast } from "react-toastify";
 
 export default function AboutContent() {
+  const [openModal, setOpenModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (email, password) => {
+    const loginStatus = await isLoggedIn();
+
+    if (loginStatus?.success) {
+      toast("You are already logged in", {
+        className: "p-0 w-[400px] border border-[#3F6B2A]",
+      });
+      router.push("/albums/create");
+      return;
+    }
+
+    const result = await login(email, password);
+
+    if (result?.error) {
+      toast(result.error.message, {
+        className: "p-0 w-[400px] border border-[#a93f06]",
+      });
+      return;
+    }
+
+    if (result?.user) {
+      toast("You are now logged in", {
+        className: "p-0 w-[400px] border border-[#3F6B2A]",
+      });
+      setOpenModal(false);
+      router.push("/albums/create");
+    }
+  }
+
   return (
     <section className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
@@ -15,6 +54,7 @@ export default function AboutContent() {
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <span className="absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-[0.3em]">
               Self · Diana F+
@@ -78,10 +118,29 @@ export default function AboutContent() {
                 <path d="M7 17 17 7"></path>
               </svg>
             </a>
+            <button
+              onClick={() => setOpenModal(true)}
+              className="group inline-flex items-center gap-3 px-6 py-3 border transition-all duration-500 font-mono text-[11px] uppercase tracking-[0.3em] cursor-pointer"
+            >
+                Login to upload photos
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 group-hover:rotate-45 transition-transform duration-500" aria-hidden="true">
+                  <path d="M7 7h10v10"></path>
+                  <path d="M7 17 17 7"></path>
+                </svg>
+
+            </button>
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+      <LoginModal
+        openModal={openModal}
+        onClose={() => setOpenModal(false)}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        email={email}
+        password={password}
+        handleLogin={handleLogin}
+      />
     </section>
   )
 }
