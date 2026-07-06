@@ -3,12 +3,12 @@ import React from "react";
 import Link from "next/link";
 
 export default function LoginModal({ openModal, onClose, setEmail, setPassword, email, password, handleLogin }) {
-  
+
   if (!openModal) return null;
 
   return (
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 bg-black/50" onClick={onClose}></div>
       <div className="relative flex min-h-full items-center justify-center p-4">
         <section className="create-form-container p-10 flex justify-center items-center bg-[#A93F06]">
           <div className="w-full max-w-lg space-y-12" data-testid="login-form">
@@ -21,7 +21,10 @@ export default function LoginModal({ openModal, onClose, setEmail, setPassword, 
             <section className="space-y-5" data-testid="login-section">
               <form
                 className="flex flex-col"
-                onSubmit={() => handleLogin(email, password)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleLogin(email, password);
+                }}
               >
                 <label className="my-2 font-medium text-xs uppercase tracking-wider text-white/80">
                   <span>Email:</span>
@@ -44,24 +47,26 @@ export default function LoginModal({ openModal, onClose, setEmail, setPassword, 
                   />
                 </label>
                 <div className="flex">
-                  <button
-                    onClick={() => onClose()}
-                    className="me-2 w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs mt-4 uppercase tracking-wider"
-                    data-testid="album-submit-btn"
-
+                  <Link
+                    href="/albums/create"
+                    className="me-2 w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs mt-4 uppercase tracking-wider flex items-center justify-center"
                   >
-                    <Link href="/albums/create" onClick={onClose}>
-                      Login as Guest
-                    </Link>
-                  </button>
+                    Login as Guest
+                  </Link>
                   <button
                     className="ms-2 w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs mt-4 uppercase tracking-wider"
-                    data-testid="album-submit-btn"
                     type="submit"
                   >
                     Login as Admin
                   </button>
                 </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="mt-3 w-full border border-white/30 text-white/60 hover:text-white hover:border-white/60 px-5 py-2 h-9 text-xs uppercase tracking-wider transition-colors"
+                >
+                  Cancel
+                </button>
               </form>
             </section>
           </div>

@@ -3,6 +3,7 @@ import { Playfair_Display, JetBrains_Mono, Inter } from "next/font/google";
 import AuthProvider from "./auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import UpButton from "./components/UpButton";
+import { ToastContainer } from "react-toastify";
 
 export const dynamic = "force-dynamic"; // needs to build dynamic since there are dynamic functions etc.
 
@@ -43,6 +44,17 @@ export default function RootLayout({ children }) {
       <body className="min-h-full">
         <AuthProvider>
           <Navbar />
+          <ToastContainer
+            postion="top-right"
+            autoClose={5000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick={true}
+            rtl={false}
+            pauseOnFocusLoss
+            pauseOnHover
+            theme="dark"
+          />
           <div className="divider" />
           {children}
           <UpButton />

@@ -5,6 +5,8 @@ import Image from "next/image";
 import selfportrait from "./self-portrait.webp";
 import LoginModal from './LoginModal';
 import { useRouter } from 'next/navigation';
+import { isLoggedIn, login } from '../auth/clientAuth';
+import { toast } from "react-toastify";
 
 export default function AboutContent() {
   const [openModal, setOpenModal] = useState(false);
@@ -12,10 +14,33 @@ export default function AboutContent() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (email, password) => {
-    // console.log(email, password, 'this is the email and the password');
-    router.push('/albums/create');
+  const handleLogin = async (email, password) => {
+    const loginStatus = await isLoggedIn();
 
+    if (loginStatus?.success) {
+      toast("You are already logged in", {
+        className: "p-0 w-[400px] border border-[#3F6B2A]",
+      });
+      router.push("/albums/create");
+      return;
+    }
+
+    const result = await login(email, password);
+
+    if (result?.error) {
+      toast(result.error.message, {
+        className: "p-0 w-[400px] border border-[#a93f06]",
+      });
+      return;
+    }
+
+    if (result?.user) {
+      toast("You are now logged in", {
+        className: "p-0 w-[400px] border border-[#3F6B2A]",
+      });
+      setOpenModal(false);
+      router.push("/albums/create");
+    }
   }
 
   return (
