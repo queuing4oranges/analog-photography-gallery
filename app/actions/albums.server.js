@@ -14,11 +14,20 @@ export async function createAlbum(formData) {
     }
   }
 
+  const place = formData.get("place")?.toString().trim();
+  const camera = formData.get("camera")?.toString().trim();
+  const film_type = formData.get("film")?.toString().trim();
+  const slug = formData.get("slug")?.toString().trim();
+
+  if (!place || !camera || !film_type || !slug) {
+    return {
+      success: false,
+      message: "All fields are required"
+    }
+  }
+
   const { error } = await supabase.from("albums").insert({
-    place: formData.get("place"),
-    camera: formData.get("camera"),
-    film_type: formData.get("film"),
-    slug: formData.get("slug")?.trim(),
+    place, camera, film_type, slug
   });
 
 
@@ -78,7 +87,7 @@ export async function uploadPhoto(formData) {
   }
 
   const allowedFileTypes = ["image/jpeg", "image/png", "image/webp"];
-  if (!allowedFileTypes.includes(fileType)) {
+  if (!allowedFileTypes.includes(fileType) || !fileType ) {
     return { success: false, message: "File must be JPEG, PNG, or WEBP" };
   }
 
@@ -107,6 +116,6 @@ export async function uploadPhoto(formData) {
 
   return {
     success: true,
-    message: "Photos added successfully"
+    message: "Photo added successfully"
   }
 }

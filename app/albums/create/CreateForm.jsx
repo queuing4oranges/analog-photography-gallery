@@ -35,11 +35,11 @@ export default function CreateForm({ albums }) {
       toast(result.message, {
         className: "p-0 w-[400px] border border-[#a93f06]",
       });
+    } else {
+        toast(result.message, {
+          className: "p-0 w-[400px] border border-[#3F6B2A]",
+        });
     }
-
-    toast(result.message, {
-      className: "p-0 w-[400px] border border-[#3F6B2A]",
-    });
   }
 
   return (
