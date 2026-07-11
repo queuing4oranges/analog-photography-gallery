@@ -18,7 +18,10 @@ async function getPhotos() {
 
     const bucketName = "analog-images";
 
-    return data?.map((album) => {
+    // sort albums - safeguard against null
+    const albums = data.sort((a, b) => (a.place ?? '').localeCompare(b.place ?? ''));
+
+    return albums?.map((album) => {
         const cover = album.photos?.[0];
 
         const publicUrl = cover
@@ -57,7 +60,7 @@ export default async function PhotoGallery() {
                                         />
                                     </div>
                                 )}
-                                <div className="absolute bottom-0 left-0 right-0 w-full flex flex-col bg-black/70 p-3 sm:p-4 md:p-5">
+                                <div className="absolute bottom-0 left-0 right-0 w-full flex flex-col bg-black/70 p-3 sm:p-4 md:p-5 min-h-[80px] sm:min-h-[120px]">
                                     <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-light leading-tight">{album.place}</h2>
                                     <div className="flex flex-wrap items-center text-white">
                                         <span>{album.camera}</span>

@@ -9,9 +9,7 @@ export async function isLoggedInServer() {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  //TODO delete console logs
-  console.log("SERVER USER:", user);
-  console.log("SERVER ERROR:", error);
+
   if (error || !user) {
     return {
       success: false,

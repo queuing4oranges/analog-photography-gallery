@@ -14,8 +14,7 @@ async function getAlbum(slug) { //example: prague-2
     .maybeSingle();
 
   if (albumError || !album) {
-    console.error(albumError?.message);
-    return null;
+    return null
   }
 
   // get photos from that album

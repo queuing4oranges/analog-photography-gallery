@@ -3,7 +3,6 @@ import PhotoGallery from "./components/PhotoGallery";
 import hero from "./components/hero.png"
 
 export default function Home() {
-  //TODO show a random image as cover
   return (
     <main className="w-full">
       <section className="relative h-screen w-full mb-5">
