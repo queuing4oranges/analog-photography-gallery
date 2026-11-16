@@ -5,9 +5,7 @@ import { createAlbum, uploadPhoto } from "../../actions/albums.server";
 import { toast } from "react-toastify";
 
 export default function CreateForm({ albums }) {
-  const [allAlbums, setAllAlbums] = useState(albums);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [albumId, setAlbumId] = useState("");
   const uploadRef = useRef(null);
 
   const handleCreateAlbum = async (e) => {
@@ -159,14 +157,14 @@ export default function CreateForm({ albums }) {
                   type="button"
                   className="flex items-center justify-between w-full capitalize border border-white/20 px-3 py-2 h-10 text-sm text-white/60"
                   name="albumId"
+                  required
                 >
                   {/* TODO sort album titles and make scrollbar */}
-                  {allAlbums && allAlbums.map((alb, idx) => (
+                  {albums?.map((alb) => (
                     <option
                       className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
-                      key={idx}
+                      key={alb.id}
                       value={alb.id}
-                      onChange={() => setAlbumId(alb.id)}
                     >
                       {alb.place}
                     </option>

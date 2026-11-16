@@ -1,4 +1,4 @@
-import { getAlbums } from "../../actions/albums.server";
+import { getAlbums } from "../../lib/data/albums";
 import CreateForm from "./CreateForm";
 
 export default async function AddPhoto() {

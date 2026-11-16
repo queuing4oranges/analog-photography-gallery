@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { createServerSupabaseClient } from "../../app/lib/server";
 
+/*Create, edit, delete = album mutations*/
+
 // create an album
 export async function createAlbum(formData) {
   const supabase = await createServerSupabaseClient();
@@ -46,22 +48,6 @@ export async function createAlbum(formData) {
     success: true,
     message: "Album created successfully"
   }
-}
-
-// fetch all albums
-export async function getAlbums() {
-  const supabase = await createServerSupabaseClient();
-
-  const { data: albums, error: albumsError } = await supabase
-    .from("albums")
-    .select("id, film_type, camera, place")
-
-  if (albumsError || !albums) {
-    console.error(albumsError?.message);
-    return null;
-  }
-
-  return albums;
 }
 
 // upload an image
