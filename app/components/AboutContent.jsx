@@ -132,15 +132,7 @@ export default function AboutContent() {
           </div>
         </div>
       </div>
-      <LoginModal
-        openModal={openModal}
-        onClose={() => setOpenModal(false)}
-        setEmail={setEmail}
-        setPassword={setPassword}
-        email={email}
-        password={password}
-        handleLogin={handleLogin}
-      />
+      <Footer />
     </section>
   )
 }
