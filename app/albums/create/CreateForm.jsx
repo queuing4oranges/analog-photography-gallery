@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { createAlbum, uploadPhoto } from "../../actions/albums.server";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
 
 export default function CreateForm({ albums }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -41,10 +42,11 @@ export default function CreateForm({ albums }) {
   }
 
   return (
-    <section className="create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
+    <section className="mt-4 create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
       <div className="w-full max-w-lg space-y-12" data-testid="upload-form">
+        <BackButton />
         <header className="space-y-1">
-          <h1 className="text-2xl font-medium tracking-tight">Upload photos</h1>
+          <h1 className="text-2xl font-medium tracking-tight">Uploads</h1>
           <p className="text-sm text-white/50">
             Create a new album or add photos to an existing one.
           </p>
@@ -57,7 +59,7 @@ export default function CreateForm({ albums }) {
           <form onSubmit={handleCreateAlbum}>
 
             <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
-              <h2 className="text-sm uppercase tracking-wider text-white/80">
+              <h2 className="text-m uppercase tracking-wider text-white/80">
                 New album
               </h2>
               <span className="text-xs text-white/35">optional</span>
@@ -144,7 +146,7 @@ export default function CreateForm({ albums }) {
         {/* add photos */}
         <section className="space-y-5" data-testid="photos-section">
           <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
-            <h2 className="text-sm uppercase tracking-wider text-white/80">
+            <h2 className="text-m uppercase tracking-wider text-white/80">
               Add photos
             </h2>
           </div>

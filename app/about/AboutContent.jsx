@@ -7,6 +7,7 @@ import LoginModal from './LoginModal';
 import { useRouter } from 'next/navigation';
 import { isLoggedIn, login } from '../auth/clientAuth';
 import { toast } from "react-toastify";
+import BackButton from '../components/BackButton';
 
 export default function AboutContent() {
   const [openModal, setOpenModal] = useState(false);
@@ -45,7 +46,8 @@ export default function AboutContent() {
 
   return (
     <section className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+      <BackButton />
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
         <div className="md:col-span-5 lg:col-span-5">
           <div className="relative w-full aspect-[3/4] overflow-hidden">
             <Image
@@ -101,7 +103,7 @@ export default function AboutContent() {
 
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.3em]">Cameras</p>
-              <p className="mt-2 font-serif text-base md:text-lg">Olympus 35 RC · Diana F+ · Pentax MX</p>
+              <p className="mt-2 font-serif text-base md:text-lg">Olympus 35 RC · Diana F+ · Pentax MX · Petri Racer · Olympus OM 10 · Werramatic</p>
             </div>
           </div>
 
