@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createServerSupabaseClient } from "../../app/lib/server";
 
+// create an album
 export async function createAlbum(formData) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -47,6 +48,7 @@ export async function createAlbum(formData) {
   }
 }
 
+// fetch all albums
 export async function getAlbums() {
   const supabase = await createServerSupabaseClient();
 
@@ -62,6 +64,7 @@ export async function getAlbums() {
   return albums;
 }
 
+// upload an image
 export async function uploadPhoto(formData) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();

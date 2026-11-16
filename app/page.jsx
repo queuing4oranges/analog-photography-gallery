@@ -1,6 +1,6 @@
 import Image from "next/image";
-import PhotoGallery from "./components/PhotoGallery";
-import hero from "./components/hero.png"
+import PhotoGallery from "./(home)/PhotoGallery";
+import hero from "./(home)/hero.png"
 
 export default function Home() {
   return (

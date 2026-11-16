@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Playfair_Display, JetBrains_Mono, Inter } from "next/font/google";
 import AuthProvider from "./auth/AuthProvider";
-import Navbar from "./components/Navbar";
+import Navbar from "./(navbar)/Navbar";
 import UpButton from "./components/UpButton";
 import { ToastContainer } from "react-toastify";
 
