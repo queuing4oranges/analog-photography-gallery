@@ -42,6 +42,13 @@ export default function CreateForm({ albums }) {
     }
   }
 
+  function getAlbumName(albums) {
+    return [...albums].sort((a, b) => a.place.localeCompare(b.place));
+  }
+
+  const sortedAlbums = getAlbumName(albums);
+
+
   return (
     <section className="mt-4 create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
       <div className="w-full max-w-lg space-y-12" data-testid="upload-form">
@@ -117,7 +124,7 @@ export default function CreateForm({ albums }) {
                   Choose an album
                 </option>
                 {/* TODO sort album titles and make scrollbar */}
-                {albums?.map((alb) => (
+                {sortedAlbums?.map((alb) => (
                   <option
                     className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
                     key={alb.id}
