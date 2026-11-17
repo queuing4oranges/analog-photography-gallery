@@ -43,7 +43,7 @@ export default function CreateForm({ albums }) {
   }
 
   function getAlbumName(albums) {
-    return [...albums].sort((a, b) => a.place.localeCompare(b.place));
+    return [...albums].sort((a, b) => a.name.localeCompare(b.name));
   }
 
   const sortedAlbums = getAlbumName(albums);

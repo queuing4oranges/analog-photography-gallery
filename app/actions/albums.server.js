@@ -17,12 +17,10 @@ export async function createAlbum(formData) {
     }
   }
 
-  const place = formData.get("place")?.toString().trim();
-  const camera = formData.get("camera")?.toString().trim();
-  const film_type = formData.get("film")?.toString().trim();
+  const name = formData.get("name")?.toString().trim();
   const slug = formData.get("slug")?.toString().trim();
 
-  if (!place || !camera || !film_type || !slug) {
+  if (!name || !slug) {
     return {
       success: false,
       message: "All fields are required"
@@ -30,12 +28,12 @@ export async function createAlbum(formData) {
   }
 
   const { error } = await supabase.from("albums").insert({
-    place, camera, film_type, slug
+    name, slug
   });
 
 
   if (error) {
-    const message = error.code === "23505"
+    const message = error.code === "23505" // in PostgreSQL, error code 23505 means unique_violation
       ? "An album with that URL path already exists"
       : error.message;
     return { success: false, message };
