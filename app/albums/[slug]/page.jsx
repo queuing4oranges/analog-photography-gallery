@@ -10,7 +10,7 @@ async function getAlbum(slug) { //example: prague-2
   // get album
   const { data: album, error: albumError } = await supabase
     .from("albums")
-    .select("id, film_type, camera, place, slug")
+    .select("id, slug, created_at, name")
     .eq("slug", slug)
     .maybeSingle();
 
@@ -21,7 +21,7 @@ async function getAlbum(slug) { //example: prague-2
   // get photos from that album
   const { data: photos, error: photosError } = await supabase
     .from("photos")
-    .select("id, image_path, place, created_at")
+    .select("id, album_id, image_path, place, created_at, camera, film_type, taken_at") //taken_at = timestamp
     .eq("album_id", album.id)
 
   if (photosError || !photos) {
@@ -53,8 +53,7 @@ export default async function AlbumDetails({ params }) {
     <section className="pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24">
       {album &&
         <>
-          <h1 className='text-xl font-light !font-body'>{album.camera}</h1>
-          <h1 className='text-xl font-light !font-body'>{album.film_type}</h1>
+          <h1 className='text-xl font-light !font-body'>{album.name}</h1>
         </>
       }
       <BackButton />

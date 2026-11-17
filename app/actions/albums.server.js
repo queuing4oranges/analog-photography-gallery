@@ -17,12 +17,10 @@ export async function createAlbum(formData) {
     }
   }
 
-  const place = formData.get("place")?.toString().trim();
-  const camera = formData.get("camera")?.toString().trim();
-  const film_type = formData.get("film")?.toString().trim();
+  const name = formData.get("name")?.toString().trim();
   const slug = formData.get("slug")?.toString().trim();
 
-  if (!place || !camera || !film_type || !slug) {
+  if (!name || !slug) {
     return {
       success: false,
       message: "All fields are required"
@@ -30,12 +28,12 @@ export async function createAlbum(formData) {
   }
 
   const { error } = await supabase.from("albums").insert({
-    place, camera, film_type, slug
+    name, slug
   });
 
 
   if (error) {
-    const message = error.code === "23505"
+    const message = error.code === "23505" // in PostgreSQL, error code 23505 means unique_violation
       ? "An album with that URL path already exists"
       : error.message;
     return { success: false, message };
@@ -66,6 +64,15 @@ export async function uploadPhoto(formData) {
   const fileType = file?.type;
   const fileName = file?.name;
   const albumId = formData.get("albumId");
+  const place = formData.get("place");
+  const camera = formData.get("camera");
+  const film_type = formData.get("film_type");
+
+  const tags = formData.get("tags")
+    ?.toString()
+    .split(",")
+    .map((tag) => tag.trim().toLowerCase())
+    .filter(Boolean) || [];
 
   if (!file || !albumId) {
     return { success: false, message: "Missing file or album" };
@@ -80,6 +87,7 @@ export async function uploadPhoto(formData) {
     return { success: false, message: "File must be JPEG, PNG, or WEBP" };
   }
 
+  // uploading image to storage
   const filePath = `${albumId}/${fileName}`;
   const { error: uploadError } = await supabase.storage
     .from("analog-images")
@@ -89,14 +97,20 @@ export async function uploadPhoto(formData) {
     return { success: false, message: uploadError.message };
   }
 
+  // uploading image info to database
   const { error: dbError } = await supabase
     .from("photos")
     .insert({
       album_id: albumId,
       image_path: filePath,
+      place: place,
+      camera: camera,
+      film_type: film_type,
+      tags: tags
     });
 
   if (dbError) {
+    console.error("Database insert failed:", dbError);
     return { success: false, message: dbError.message };
   }
 

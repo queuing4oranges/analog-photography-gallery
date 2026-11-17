@@ -9,7 +9,7 @@ export async function getAlbums() {
 
   const { data: albums, error: albumsError } = await supabase
     .from("albums")
-    .select("id, film_type, camera, place")
+    .select("id, created_at, slug, name")
 
   if (albumsError || !albums) {
     console.error(albumsError?.message);
