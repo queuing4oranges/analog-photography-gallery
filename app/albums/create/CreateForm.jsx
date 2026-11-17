@@ -3,6 +3,8 @@
 import React, { useState, useRef } from "react";
 import { createAlbum, uploadPhoto } from "../../actions/albums.server";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
+import { albumDetails } from "./albumData";
 
 export default function CreateForm({ albums }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -41,10 +43,11 @@ export default function CreateForm({ albums }) {
   }
 
   return (
-    <section className="create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
+    <section className="mt-4 create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
       <div className="w-full max-w-lg space-y-12" data-testid="upload-form">
+        <BackButton />
         <header className="space-y-1">
-          <h1 className="text-2xl font-medium tracking-tight">Upload photos</h1>
+          <h1 className="text-2xl font-medium tracking-tight">Uploads</h1>
           <p className="text-sm text-white/50">
             Create a new album or add photos to an existing one.
           </p>
@@ -56,79 +59,31 @@ export default function CreateForm({ albums }) {
           {/* on submit, send to server and run createAlbum on server */}
           <form onSubmit={handleCreateAlbum}>
 
-            <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
-              <h2 className="text-sm uppercase tracking-wider text-white/80">
+            <div className="flex items-baseline justify-between border-b border-white/15">
+              <h2 className="text-m uppercase tracking-wider text-white/80">
                 New album
               </h2>
               <span className="text-xs text-white/35">optional</span>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <label
-                  htmlFor="place"
-                  className="font-medium text-xs uppercase tracking-wider text-white/60"
-                >
-                  Place
-                </label>
-                <input
-                  type="text"
-                  id="place"
-                  name="place"
-                  placeholder="Prague"
-                  className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="slug"
-                  className="font-medium text-xs uppercase tracking-wider text-white/60"
-                >
-                  URL path
-                </label>
-                <input
-                  type="text"
-                  id="slug"
-                  name="slug"
-                  placeholder="prague-2"
-                  className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <label
-                  htmlFor="camera"
-                  className="font-medium text-xs uppercase tracking-wider text-white/60"
-                >
-                  Camera
-                </label>
-                <input
-                  type="text"
-                  id="camera"
-                  name="camera"
-                  placeholder="Pentax MX"
-                  className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="film"
-                  className="font-medium text-xs uppercase tracking-wider text-white/60"
-                >
-                  Film type
-                </label>
-                <input
-                  type="text"
-                  id="film"
-                  name="film"
-                  placeholder="Kodak Ultramax 400"
-                  className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
-                />
-              </div>
+              {albumDetails?.map((album) => (
+                <div className="space-y-2" key={album.id}>
+                  <label
+                    htmlFor={album.htmlFor}
+                    className="font-medium text-xs uppercase tracking-wider text-white/60"
+                  >
+                    {album.label}
+                  </label>
+                  <input
+                    type="text"
+                    id={album.id}
+                    name={album.name}
+                    placeholder={album.placeholder}
+                    className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
+                  />
+                </div>
+              ))}
             </div>
 
             <button
@@ -143,34 +98,35 @@ export default function CreateForm({ albums }) {
 
         {/* add photos */}
         <section className="space-y-5" data-testid="photos-section">
-          <div className="flex items-baseline justify-between border-b border-white/15 pb-2">
-            <h2 className="text-sm uppercase tracking-wider text-white/80">
+          <div className="flex items-baseline justify-between border-b border-white/15">
+            <h2 className="text-m uppercase tracking-wider text-white/80">
               Add photos
             </h2>
           </div>
 
           <form action={handleUploadPhoto}>
             <div className="space-y-2">
-              <label className="font-medium text-xs uppercase tracking-wider text-white/60">
-                Choose an album
-                <select
-                  type="button"
-                  className="flex items-center justify-between w-full capitalize border border-white/20 px-3 py-2 h-10 text-sm text-white/60"
-                  name="albumId"
-                  required
-                >
-                  {/* TODO sort album titles and make scrollbar */}
-                  {albums?.map((alb) => (
-                    <option
-                      className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
-                      key={alb.id}
-                      value={alb.id}
-                    >
-                      {alb.place}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <select
+                defaultValue=""
+                type="button"
+                className="flex items-center justify-between w-full capitalize border border-white/20 px-3 py-2 h-10 text-sm text-white/60 max-h-[40px] overflow-y-auto"
+                name="albumId"
+                required
+              >
+                <option value="" disabled>
+                  Choose an album
+                </option>
+                {/* TODO sort album titles and make scrollbar */}
+                {albums?.map((alb) => (
+                  <option
+                    className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
+                    key={alb.id}
+                    value={alb.id}
+                  >
+                    {alb.place}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-2 flex flex-col">

@@ -2,6 +2,7 @@ import React from 'react';
 import { createServerSupabaseClient } from "../../lib/server";
 import NotFound from '../../not-found';
 import Image from "next/image";
+import BackButton from '../../components/BackButton';
 
 async function getAlbum(slug) { //example: prague-2
   const supabase = await createServerSupabaseClient(); //must be inside a function
@@ -56,19 +57,7 @@ export default async function AlbumDetails({ params }) {
           <h1 className='text-xl font-light !font-body'>{album.film_type}</h1>
         </>
       }
-      <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-6">
-        <a
-          href="/"
-          className="group inline-flex items-center gap-3 px-6 py-3 border transition-all duration-500 font-mono text-[11px] uppercase tracking-[0.3em]"
-          rel='noopener noreferrer'
-        >
-          Back to Gallery
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 group-hover:rotate-45 transition-transform duration-500" aria-hidden="true">
-            <path d="M7 7h10v10"></path>
-            <path d="M7 17 17 7"></path>
-          </svg>
-        </a>
-      </div>
+      <BackButton />
       <div className="mt-5 columns-1 sm:columns-2 lg:columns-2 gap-6">
         {album && album.photos?.map((photo) => {
           return (
