@@ -48,7 +48,6 @@ export default function CreateForm({ albums }) {
 
   const sortedAlbums = getAlbumName(albums);
 
-
   return (
     <section className="mt-4 create-form-container pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-24 flex justify-center items-center min-h-screen">
       <div className="w-full max-w-lg space-y-12" data-testid="upload-form">
