@@ -4,11 +4,13 @@ import React, { useState, useRef } from "react";
 import { createAlbum, uploadPhoto } from "../../actions/albums.server";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
-import { albumDetails } from "./albumData";
+import { albumDetails, photoDetails } from "./albumData";
+import { useRouter } from "next/navigation";
 
 export default function CreateForm({ albums }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const uploadRef = useRef(null);
+  const router = useRouter();
 
   const handleCreateAlbum = async (e) => {
     e.preventDefault();
@@ -26,6 +28,8 @@ export default function CreateForm({ albums }) {
     toast(result.message, {
       className: "p-0 w-[400px] border border-[#3F6B2A]",
     });
+
+    router.refresh();
   }
 
   const handleUploadPhoto = async (formData) => {
@@ -129,10 +133,30 @@ export default function CreateForm({ albums }) {
                     key={alb.id}
                     value={alb.id}
                   >
-                    {alb.place}
+                    {alb.name}
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {photoDetails?.map((album) => (
+                <div className="space-y-2" key={album.id}>
+                  <label
+                    htmlFor={album.htmlFor}
+                    className="font-medium text-xs uppercase tracking-wider text-white/60"
+                  >
+                    {album.label}
+                  </label>
+                  <input
+                    type="text"
+                    id={album.id}
+                    name={album.name}
+                    placeholder={album.placeholder}
+                    className="w-full bg-transparent border border-white/20 px-3 py-2 h-10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white"
+                  />
+                </div>
+              ))}
             </div>
 
             <div className="space-y-2 flex flex-col">
