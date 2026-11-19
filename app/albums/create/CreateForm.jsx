@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { createAlbum, uploadPhoto } from "../../actions/albums.server";
+import React, { useState } from "react";
+import { createAlbum, uploadPhotos } from "../../actions/albums.server";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
 import { albumDetails, photoDetails } from "./albumData";
 import { useRouter } from "next/navigation";
 
 export default function CreateForm({ albums }) {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const uploadRef = useRef(null);
+  const [files, setFiles] = useState([]);
+  const [isDragging, setIsDragging] = useState(false);
   const router = useRouter();
 
   const handleCreateAlbum = async (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
     const formData = new FormData(e.currentTarget);
 
     const result = await createAlbum(formData);
@@ -29,27 +30,61 @@ export default function CreateForm({ albums }) {
       className: "p-0 w-[400px] border border-[#3F6B2A]",
     });
 
+    form.reset();
     router.refresh();
   }
 
-  const handleUploadPhoto = async (formData) => {
-    const result = await uploadPhoto(formData);
+  async function handleUploadPhotos(event) {
+    event.preventDefault();
 
-    if(!result.success) {
-      toast(result.message, {
-        className: "p-0 w-[400px] border border-[#a93f06]",
-      });
-    } else {
-        toast(result.message, {
-          className: "p-0 w-[400px] border border-[#3F6B2A]",
-        });
+    const formData = new FormData(event.currentTarget);
+
+    // add every selected photo
+    files.forEach((file) => {
+      formData.append("photos", file);
+    });
+
+    const result = await uploadPhotos(formData);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
     }
+
+    alert(result.message);
+    setFiles([]);
   }
 
+  // add files to state
+  function addFiles(newFiles) {
+    const imageFiles = Array.from(newFiles).filter((file) =>
+      file.type?.startsWith("image/")
+    );
+
+    setFiles((currentFiles) => [
+      ...currentFiles,
+      ...imageFiles,
+    ]);
+  }
+
+  // handle when files are dropped
+  function handleDrop(event) {
+    event.preventDefault();
+    setIsDragging(false);
+
+    addFiles(event.dataTransfer.files);
+  }
+
+  // handle when files are selected using the file picker
+  function handleFileChange(event) {
+    addFiles(event.target.files);
+    event.target.value = "";
+  }
+
+  // get all albums names for drop down
   function getAlbumName(albums) {
     return [...albums].sort((a, b) => a.name.localeCompare(b.name));
   }
-
   const sortedAlbums = getAlbumName(albums);
 
   return (
@@ -114,7 +149,7 @@ export default function CreateForm({ albums }) {
             </h2>
           </div>
 
-          <form action={handleUploadPhoto}>
+          <form onSubmit={handleUploadPhotos}>
             <div className="space-y-2">
               <select
                 defaultValue=""
@@ -126,16 +161,15 @@ export default function CreateForm({ albums }) {
                 <option value="" disabled>
                   Choose an album
                 </option>
-                {/* TODO sort album titles and make scrollbar */}
-                {sortedAlbums?.map((alb) => (
-                  <option
-                    className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
-                    key={alb.id}
-                    value={alb.id}
-                  >
-                    {alb.name}
-                  </option>
-                ))}
+                  {sortedAlbums?.map((alb) => (
+                    <option
+                      className="font-medium text-xs uppercase tracking-wider bg-black text-white/60"
+                      key={alb.id}
+                      value={alb.id}
+                    >
+                      {alb.name}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -159,39 +193,51 @@ export default function CreateForm({ albums }) {
               ))}
             </div>
 
-            <div className="space-y-2 flex flex-col">
-              <label htmlFor="photo" className="font-medium text-xs uppercase tracking-wider text-white/60 mt-2">
-                Photos ( max. 100kB)
-              </label>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => uploadRef.current?.click()}
-                  className="border border-white/20 px-4 h-10 text-sm"
-                >
-                  Choose file
-                </button>
+            {/* drag-and-drop component*/}
+            <div className="mt-5 bg-transparent border border-white/20 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white border-2 border-dashed border-[#999]">
+              <label
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={handleDrop}
+                className="pt-2 font-medium text-xs uppercase tracking-wider text-white/60 bg-white/30 block h-15 cursor-pointer text-center"
+              >
+                <p>Drag photos here, or click to select</p>
 
-                <span className="text-sm text-white/50">
-                  {selectedFile ? selectedFile.name : "No file chosen"}
-                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleFileChange}
+                  hidden
+                />
+              </label>
+
+              <p>{files.length} photos selected</p>
+
+              <div className="flex flex-wrap gap-3">
+                {files.map((file, index) => (
+                  <div key={`${file.name}-${index}`}>
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      width="120"
+                      height="120"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <p>{file.name}</p>
+                  </div>
+                ))}
               </div>
-              <input
-                ref={uploadRef}
-                name="photo"
-                id="photo"
-                accept="image/*"
-                type="file"
-                className="hidden"
-                onChange={(e) => setSelectedFile(e.target.files?.[0])}
-              />
             </div>
 
             <button
               className="w-full bg-white text-black hover:bg-white/85 px-5 py-2 h-9 text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-4"
               type="submit"
             >
-              Add Image to Album
+              Add Images to Album
             </button>
           </form>
         </section>
